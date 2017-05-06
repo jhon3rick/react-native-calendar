@@ -1,10 +1,18 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
-const DEVICE_WIDTH = Dimensions.get('window').width;
+const COLOR_DARK = '#294a62'
+,   COLOR_GRAY = '#bbb'
+,   COLOR_GRAY_LIGHT = '#d9dce0'
+,   COLOR_RED = '#c21640'
+
+const FONT_SIZE_TITLE = 13
+,   FONT_WEIGHT_TITLE = '700'
+
+const DEVICE_WIDTH = Dimensions.get('window').width - 30;
 
 const styles = StyleSheet.create({
   calendarContainer: {
-    backgroundColor: '#f7f7f7',
+    //backgroundColor: '#fff',
   },
   monthContainer: {
     width: DEVICE_WIDTH,
@@ -31,22 +39,26 @@ const styles = StyleSheet.create({
   },
   dayHeading: {
     flex: 1,
-    fontSize: 15,
+    color: COLOR_DARK,
+    fontSize: 13,
     textAlign: 'center',
     marginVertical: 5,
   },
   weekendHeading: {
     flex: 1,
-    fontSize: 15,
+    color: COLOR_DARK,
+    fontSize: 13,
     textAlign: 'center',
     marginVertical: 5,
-    color: '#cccccc',
+  },
+   weekendDayText: {
+    //color: COLOR_GRAY,
   },
   weekRow: {
     flexDirection: 'row',
   },
   weekendDayButton: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#fff',
   },
   dayButton: {
     alignItems: 'center',
@@ -74,20 +86,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#cccccc',
   },
   dayCircleFiller: {
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
     width: 28,
     height: 28,
     borderRadius: 14,
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
-  currentDayCircle: {
-    backgroundColor: 'red',
+  currentDayCircle: {         // dia actual selected
+    borderWidth: 2,
+    borderRadius: 14,
+    borderColor: COLOR_RED,
+    //backgroundColor: COLOR_GRAY_LIGHT,
   },
-  currentDayText: {
-    color: 'red',
+  currentDayText: {           // dia actual text selected
+    color: COLOR_RED,
   },
   selectedDayCircle: {
-    backgroundColor: 'black',
+    borderWidth: 2,
+    borderColor: COLOR_RED,
+    //backgroundColor: 'black',
   },
   hasEventCircle: {
   },
@@ -95,12 +112,9 @@ const styles = StyleSheet.create({
   },
   hasEventText: {
   },
-  selectedDayText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  weekendDayText: {
-    color: '#cccccc',
+  selectedDayText: {          // dia selected
+    color: COLOR_RED,
+    fontWeight: '900',
   },
 });
 

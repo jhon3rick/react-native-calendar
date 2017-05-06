@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import {
+  View,
+  Text,
+  Image,
   Dimensions,
   ScrollView,
-  Text,
   TouchableOpacity,
-  View,
 } from 'react-native';
 
 import Day from './Day';
@@ -287,7 +288,7 @@ export default class Calendar extends Component {
     }
 
     return (
-      <View style={[styles.calendarHeading, this.props.customStyle.calendarHeading]}>
+      <View style={[styles.calendarHeading, this.props.customStyle.calendarHeading, {flex:1}]}>
         {headings}
       </View>
     );
@@ -297,31 +298,31 @@ export default class Calendar extends Component {
     let localizedMonth = this.props.monthNames[this.state.currentMoment.month()];
     return this.props.showControls
       ? (
-        <View style={[styles.calendarControls, this.props.customStyle.calendarControls]}>
+        <View style={[styles.calendarControls, this.props.customStyle.calendarControls, { flex:1, flexDirection: 'row', alignItems: 'center' }]}>
           <TouchableOpacity
-             style={[styles.controlButton, this.props.customStyle.controlButton]}
+             style={[styles.controlButton, this.props.customStyle.controlButton, { flex: 0.5 }]}
              onPress={this.onPrev}
              >
-            <Text style={[styles.controlButtonText, this.props.customStyle.controlButtonText]}>
+             <Image source={require('./img/back.png')} style={{width: 15, height: 15}}/>
+            {/*<Text style={[styles.controlButtonText, this.props.customStyle.controlButtonText]}>
               {this.props.prevButtonText}
-            </Text>
+            </Text>*/}
           </TouchableOpacity>
-          <Text style={[styles.title, this.props.customStyle.title]}>
-              {/* {localizedMonth} {this.state.currentMoment.year()} */}
-            {this.state.currentMoment.format(this.props.titleFormat)}
-          </Text>
+          <Text style={[styles.title, this.props.customStyle.title, {flex:4, textAlign: 'right', paddingRight:10, color: '#294a62', fontSize: 20}]}>{localizedMonth}</Text>
+          <Text style={[styles.title, this.props.customStyle.title, {flex:3, textAlign: 'left', paddingLeft:10, color: '#bbb', fontSize: 20}]}>{this.state.currentMoment.format(this.props.titleFormat)}</Text>
           <TouchableOpacity
-             style={[styles.controlButton, this.props.customStyle.controlButton]}
+             style={[styles.controlButton, this.props.customStyle.controlButton, { flex: 0.5}]}
              onPress={this.onNext}
              >
-            <Text style={[styles.controlButtonText, this.props.customStyle.controlButtonText]}>
+             <Image source={require('./img/next.png')} style={{width: 15, height: 15}}/>
+            {/*<Text style={[styles.controlButtonText, this.props.customStyle.controlButtonText]}>
               {this.props.nextButtonText}
-            </Text>
+            </Text>*/}
           </TouchableOpacity>
         </View>
       )
     : (
-      <View style={[styles.calendarControls, this.props.customStyle.calendarControls]}>
+      <View style={[styles.calendarControls, this.props.customStyle.calendarControls, { flex:1, flexDirection: 'row' }]}>
         <Text style={[styles.title, this.props.customStyle.title]}>
           {this.state.currentMoment.format(this.props.titleFormat)}
         </Text>
@@ -335,11 +336,12 @@ export default class Calendar extends Component {
     const numOfWeeks = getNumberOfWeeks(this.state.currentMonthMoment, this.props.weekStart);
 
     return (
-      <View style={[styles.calendarContainer, this.props.customStyle.calendarContainer]}>
+      <View style={[styles.calendarContainer, this.props.customStyle.calendarContainer, {flex:1, flexDirection: 'column'}]}>
         {this.renderTopBar()}
         {this.renderHeading(this.props.titleFormat)}
         {this.props.scrollEnabled ?
           <ScrollView
+
               ref={calendar => this._calendar = calendar}
               horizontal
               scrollEnabled
@@ -350,13 +352,15 @@ export default class Calendar extends Component {
               automaticallyAdjustContentInsets={false}
               onMomentumScrollEnd={(event) => this.scrollEnded(event)}
               style={{
+                flex: 7,
+                flexDirection: 'column',
                 height: this.state.rowHeight ? this.state.rowHeight * numOfWeeks : null,
               }}
              >
               {calendarDates.map((date) => this.renderCalendarView(this.props.calendarFormat, moment(date), eventDatesMap))}
            </ScrollView>
          :
-         <View ref={calendar => this._calendar = calendar}>
+         <View ref={calendar => this._calendar = calendar} style={{flex:8}}>
              {calendarDates.map((date) => this.renderCalendarView(this.props.calendarFormat, moment(date), eventDatesMap))}
          </View>
          }
