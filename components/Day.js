@@ -14,6 +14,7 @@ export default class Day extends Component {
   }
 
   static propTypes = {
+    activeDay: PropTypes.bool,
     caption: PropTypes.any,
     customStyle: PropTypes.object,
     filler: PropTypes.bool,
@@ -47,7 +48,7 @@ export default class Day extends Component {
     return dayCircleStyle;
   }
 
-  dayTextStyle = (isWeekend, isSelected, isToday, event) => {
+  dayTextStyle = (isWeekend, isSelected, isToday, event, activeDay) => {
     const { customStyle } = this.props;
     const dayTextStyle = [styles.day, customStyle.day];
 
@@ -59,6 +60,10 @@ export default class Day extends Component {
       dayTextStyle.push(styles.weekendDayText, customStyle.weekendDayText);
     }
 
+    if(!activeDay){
+      dayTextStyle.push({color:'#E0E0E0'});
+    }
+
     if (event) {
       dayTextStyle.push(styles.hasEventText, customStyle.hasEventText, event.hasEventText)
     }
@@ -68,6 +73,7 @@ export default class Day extends Component {
   render() {
     let { caption, customStyle } = this.props;
     const {
+      activeDay,
       filler,
       event,
       isWeekend,
@@ -88,7 +94,7 @@ export default class Day extends Component {
       <TouchableOpacity onPress={this.props.onPress}>
         <View style={[styles.dayButton, customStyle.dayButton, isWeekend ? styles.weekendDayButton : null]}>
           <View style={this.dayCircleStyle(isWeekend, isSelected, isToday, event)}>
-            <Text style={this.dayTextStyle(isWeekend, isSelected, isToday, event)}>{caption}</Text>
+            <Text style={this.dayTextStyle(isWeekend, isSelected, isToday, event, activeDay)}>{caption}</Text>
           </View>
           {showEventIndicators &&
             <View style={[

@@ -225,27 +225,42 @@ export default class Calendar extends Component {
       ? eventsMap[argMoment.startOf('month').format()]
       : null;
 
+    argMoment
+
     do {
       const dayIndex = renderIndex - offset;
       const isoWeekday = (renderIndex + weekStart) % 7;
       const thisMoment = moment(startOfArgMoment).add(dayIndex, 'day');
 
+      var nowDate = Date.parse(todayMoment.format('YYYY-MM-DD'));
+      var calendarDate = Date.parse(thisMoment.format('YYYY-MM-DD'));
+
       if (dayIndex >= 0 && dayIndex < argDaysCount) {
+        var fnEvent = null
+        , activeDay = false;
+
+        if(calendarDate >= nowDate){
+          activeDay = true;
+          fnEvent = () => {
+            this.selectDate(thisMoment);
+            this.props.onDateSelect && this.props.onDateSelect(thisMoment ? thisMoment.format(): null );
+          }
+        }
+
         days.push((
           <Day
-             startOfMonth={startOfArgMoment}
-             isWeekend={isoWeekday === 0 || isoWeekday === 6}
-             key={`${renderIndex}`}
-             onPress={() => {
-               this.selectDate(thisMoment);
-               this.props.onDateSelect && this.props.onDateSelect(thisMoment ? thisMoment.format(): null );
-            }}
+            startOfMonth={startOfArgMoment}
+            isWeekend={isoWeekday === 0 || isoWeekday === 6}
+            key={`${renderIndex}`}
+            onPress={fnEvent}
             caption={`${thisMoment.format('D')}`}
             isToday={todayMoment.format('YYYY-MM-DD') == thisMoment.format('YYYY-MM-DD')}
             isSelected={selectedMoment.isSame(thisMoment)}
             event={events && events[dayIndex]}
             showEventIndicators={this.props.showEventIndicators}
             customStyle={this.props.customStyle}
+            activeDay={activeDay}
+
             />
         ));
       } else {
